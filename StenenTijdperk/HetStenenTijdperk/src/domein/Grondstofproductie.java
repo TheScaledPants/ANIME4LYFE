@@ -10,9 +10,10 @@ package domein;
  * @author jasperdesmet
  */
 public class Grondstofproductie extends Actie{
-    
-    public Grondstofproductie(int maximumStamleden) {
+    private Grondstof grondstof;
+    public Grondstofproductie(int maximumStamleden,Grondstof grondstof) {
         super(maximumStamleden);
+        this.grondstof = grondstof;
     }
     
 }

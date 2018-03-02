@@ -13,19 +13,20 @@ import java.util.Random;
  * @author jasperdesmet
  */
 public class Spel {
-    private ArrayList<Grondstof> grondstoffen = new ArrayList<>();
+    //private ArrayList<Grondstof> grondstoffen = new ArrayList<>();
+    private Grondstof[] grondstoffen = new Grondstof[5];
     private ArrayList<Speler> spelers = new ArrayList<>();
     private Speler spelerAanZet;
     private ArrayList<Actie> acties = new ArrayList<>();
-    private ArrayList<Stapel> stapels = new ArrayList<>();
+    private Hutkaart[][] stapels = new Hutkaart[4][7];
     public Spel(int aantalSpelers){
         
         //Grondstoffen toevoegen
-        grondstoffen.add(new Grondstof(2, "Voedsel"));
-        grondstoffen.add(new Grondstof(3, "Hout"));
-        grondstoffen.add(new Grondstof(4, "Leem"));
-        grondstoffen.add(new Grondstof(5, "Steen"));
-        grondstoffen.add(new Grondstof(6, "Goud"));
+        grondstoffen[0] = new Grondstof(2, "Voedsel");
+        grondstoffen[1] = new Grondstof(2, "Hout");
+        grondstoffen[2] = new Grondstof(2, "Leem");
+        grondstoffen[3] = new Grondstof(2, "Steen");
+        grondstoffen[4] = new Grondstof(2, "Goud");
         
         //Spelers toevoegen
         for(int i = 1;i > aantalSpelers; i++){
@@ -37,10 +38,10 @@ public class Spel {
         acties.add(new Hut(2));
         acties.add(new Jacht(1));
         acties.add(new Gereedschapsmaker(1));
-        acties.add(new Grondstofproductie(7));
-        acties.add(new Grondstofproductie(7));
-        acties.add(new Grondstofproductie(7));
-        acties.add(new Grondstofproductie(7));
+        acties.add(new Grondstofproductie(7, grondstoffen[1]));
+        acties.add(new Grondstofproductie(7, grondstoffen[2]));
+        acties.add(new Grondstofproductie(7, grondstoffen[3]));
+        acties.add(new Grondstofproductie(7, grondstoffen[4]));
         
     }
     
