@@ -27,4 +27,7 @@ public class DomeinController {
     public boolean alleStamledenGeplaatst(){
         return spel.alleStamledenGeplaatst();
     }
+    public String geefInfoBeschikbarePlaatsen(){
+        return spel.geefInfoBeschikbarePlaatsen();
+    }
 }

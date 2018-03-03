@@ -36,7 +36,7 @@ public class Spel {
         
         acties.add(new Akker(1));
         acties.add(new Hut(2));
-        acties.add(new Jacht(1));
+        acties.add(new Jacht(100));
         acties.add(new Gereedschapsmaker(1));
         acties.add(new Grondstofproductie(7, grondstoffen[1]));
         acties.add(new Grondstofproductie(7, grondstoffen[2]));
@@ -86,11 +86,21 @@ public class Spel {
         
         return toString;
     }
-    public boolean alleStamledenGeplaatst(){
-        for(Speler speler : spelers){
-            speler.alleStamledenGeplaats();
+    public String geefInfoBeschikbarePlaatsen(){
+        String uitvoer = "";
+        for(Actie plaats : acties){
+            if(plaats.geefBeschikbarePlaatsen() > 0){
+               uitvoer += plaats.toString(); 
+            }     
         }
-        return false;
+        return uitvoer;
+    }
+    public boolean alleStamledenGeplaatst(){
+        boolean stamledenGeplaatst = true;
+        for(Speler speler : spelers){
+            stamledenGeplaatst = speler.alleStamledenGeplaatst() && stamledenGeplaatst;
+        }
+        return stamledenGeplaatst;
     }
     public String geefSpelerAanZet(){
         return String.format("%nDe speler aan zet is speler %d%n" ,spelerAanZet.getSpelerNummer());

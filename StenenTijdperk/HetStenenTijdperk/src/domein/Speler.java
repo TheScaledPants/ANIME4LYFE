@@ -40,7 +40,13 @@ public class Speler {
                 + "Voedsel : %d, voedselproductie: %d per beurt%n"
                 + "Stamleden: %d%n", getSpelerNummer(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
     }
-    
+    public boolean alleStamledenGeplaatst(){
+        for(Stamlid stamlid : stamleden){
+            if(stamlid.getPlaats() == null)
+                return false;
+        }
+        return true;
+    }
     public int getAantalGoud(){
         return aantalGoud;
     }

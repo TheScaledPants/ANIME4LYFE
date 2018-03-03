@@ -16,6 +16,7 @@ public class main {
     public static void main(String[] args){
         DomeinController domeinController = new DomeinController();
         Scanner input = new Scanner(System.in);
+        String invoer;
         
         System.out.printf("Welkom bij stenen tijdperk. "
                 + "%nWat wil je doen:%n"
@@ -28,7 +29,16 @@ public class main {
                 System.out.print("Met hoeveel wil je spelen: ");
                 domeinController.startSpel(input.nextInt());
                 System.out.println(domeinController.geefSpelbord());
-                break;
+
+                while(!domeinController.alleStamledenGeplaatst()){
+                    System.out.print("Waar wil je je stamleden plaatsen (typ \"?\" voor beschikbare plaatsen): ");
+                    do{
+                        invoer = input.next();
+                        if("?".equals(invoer)){
+                            System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
+                        }
+                    }while(!"?".equals(invoer));
+                }
             default:
                 System.out.println("Dit is geen geldige input");
                 break;

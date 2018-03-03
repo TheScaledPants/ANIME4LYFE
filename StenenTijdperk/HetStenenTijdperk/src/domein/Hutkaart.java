@@ -29,8 +29,10 @@ public class Hutkaart extends Actie{
     }
     @Override
     public String toString(){
-        return String.format("Hutkaart met waarde: %d en kosten 1: %s 2: %s 3: %s%n",berekenWaarde(),kosten[0].getNaam(),kosten[1].getNaam(),kosten[2].getNaam());
+        int beschikbaar = this.geefBeschikbarePlaatsen();
+        return String.format("Hutkaart met waarde: %d kosten 1: %s 2: %s 3: %s en %d vrije %s%n",berekenWaarde(),kosten[0].getNaam(),kosten[1].getNaam(),kosten[2].getNaam(),beschikbaar,beschikbaar == 0 ? "plaats" : "plaatsen");
     }
+    
     public int berekenWaarde(){
         return kosten[0].getWaarde() + kosten[1].getWaarde() + kosten[2].getWaarde();
     }

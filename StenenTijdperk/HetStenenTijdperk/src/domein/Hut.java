@@ -14,5 +14,9 @@ public class Hut extends Actie{
     public Hut(int maximumStamleden) {
         super(maximumStamleden);
     }
-    
+    @Override
+    public String toString(){
+        int beschikbaar = this.geefBeschikbarePlaatsen();
+        return String.format("Hut met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
+    }
 }

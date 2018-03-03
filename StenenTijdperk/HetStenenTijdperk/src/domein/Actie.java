@@ -9,14 +9,15 @@ package domein;
  *
  * @author jasperdesmet
  */
-public class Actie {
+public abstract class Actie {
     
-    int maximumStamleden;
-    
+    protected int maximumStamleden;
+    protected int aantalBezettePlaatsen;
     public Actie(int maximumStamleden){
         this.maximumStamleden = maximumStamleden;
     }
-    public String toString(){
-        return "";
+    public int geefBeschikbarePlaatsen(){
+      return maximumStamleden - aantalBezettePlaatsen;  
     }
+        
 }

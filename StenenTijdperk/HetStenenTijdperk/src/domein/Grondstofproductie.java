@@ -15,5 +15,19 @@ public class Grondstofproductie extends Actie{
         super(maximumStamleden);
         this.grondstof = grondstof;
     }
-    
+    @Override
+    public String toString(){
+        int beschikbaar = this.geefBeschikbarePlaatsen();
+        switch (grondstof.getNaam()){
+            case "Hout":
+                return String.format("Bos met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
+            case "Leem":
+                return String.format("Leemgroeve met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
+            case "Steen":
+                return String.format("Steengroeve met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
+            case "Goud":
+                return String.format("Rivier met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
+        }            
+        return "Er is een fout";
+    }
 }

@@ -13,5 +13,10 @@ public class Akker extends Actie{
     public Akker(int maximumStamleden) {
         super(maximumStamleden);
     }
+    @Override
+    public String toString(){
+        int beschikbaar = this.geefBeschikbarePlaatsen();
+        return String.format("Akker met %d vrije %s%n",beschikbaar, beschikbaar == 1 ? "plaats" : "plaatsen");
+    }
     
 }
