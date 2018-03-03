@@ -15,9 +15,16 @@ public class DomeinController {
         spel = new Spel(aantalSpelers);
     }
     public String geefSpelerAanZet(){
-        return "";
+        return spel.geefSpelerAanZet();
     }
     public String geefSpelbord(){
-        return "";
+        return spel.toString();
+    }
+    public boolean isEindeSpel(){
+        //Todo iteratie 2
+        return false;
+    }
+    public boolean alleStamledenGeplaatst(){
+        return spel.alleStamledenGeplaatst();
     }
 }

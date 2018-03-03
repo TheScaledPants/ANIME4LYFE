@@ -23,16 +23,16 @@ public class Spel {
         
         //Grondstoffen toevoegen
         grondstoffen[0] = new Grondstof(2, "Voedsel");
-        grondstoffen[1] = new Grondstof(2, "Hout");
-        grondstoffen[2] = new Grondstof(2, "Leem");
-        grondstoffen[3] = new Grondstof(2, "Steen");
-        grondstoffen[4] = new Grondstof(2, "Goud");
+        grondstoffen[1] = new Grondstof(3, "Hout");
+        grondstoffen[2] = new Grondstof(4, "Leem");
+        grondstoffen[3] = new Grondstof(5, "Steen");
+        grondstoffen[4] = new Grondstof(6, "Goud");
         
         //Spelers toevoegen
-        for(int i = 1;i > aantalSpelers; i++){
+        for(int i = 1;i <= aantalSpelers; i++){
             spelers.add(new Speler(i));
         }
-        bepaalSpelerAanZet();
+        bepaalSpelerAanZet(aantalSpelers);
         
         acties.add(new Akker(1));
         acties.add(new Hut(2));
@@ -43,10 +43,71 @@ public class Spel {
         acties.add(new Grondstofproductie(7, grondstoffen[3]));
         acties.add(new Grondstofproductie(7, grondstoffen[4]));
         
+        //genereren hutkaarten
+        Random rand = new Random();
+        ArrayList<Grondstof> grondstoffenList = new ArrayList<>();
+        
+        for(Hutkaart[] stapel : stapels){
+            for(int t = 0; t < stapel.length; t++){
+                
+                grondstoffenList.add(grondstoffen[rand.nextInt(4) + 1]);
+                grondstoffenList.add(grondstoffen[rand.nextInt(4) + 1]);
+                grondstoffenList.add(grondstoffen[rand.nextInt(4) + 1]);
+                
+                grondstoffenList.sort((Grondstof o1, Grondstof o2) -> o1.getWaarde()-o2.getWaarde());
+                stapel[t] = new Hutkaart(grondstoffenList);
+            }
+            grondstoffenList.clear();
+            stapel[0].Actief();
+        }
+        
     }
     
-    private void bepaalSpelerAanZet(){
+    private void bepaalSpelerAanZet(int aantalSpelers){
         Random rand = new Random();
-        spelerAanZet = spelers.get(rand.nextInt(4) + 1);
+        spelerAanZet = getSpelers().get(rand.nextInt(aantalSpelers));
+    }
+    
+    @Override
+    public String toString(){
+        int stapelNummer = 1;
+        String toString = String.format("%nSpel met %d spelers.%n",spelers.size());;
+        for(Speler speler : spelers)
+            toString += String.format("%s%n", speler.toString());
+        toString += String.format("De actieve hutkaarten zijn%n");
+        for(Hutkaart[] stapel : stapels){
+            for(Hutkaart hutkaart : stapel)
+                    if (hutkaart.getActief())
+                        toString += String.format("Stapel %d: %s",stapelNummer, hutkaart.toString());
+            stapelNummer++;
+        }
+        toString += geefSpelerAanZet();
+            
+        
+        return toString;
+    }
+    public boolean alleStamledenGeplaatst(){
+        for(Speler speler : spelers){
+            speler.alleStamledenGeplaats();
+        }
+        return false;
+    }
+    public String geefSpelerAanZet(){
+        return String.format("%nDe speler aan zet is speler %d%n" ,spelerAanZet.getSpelerNummer());
+    }
+    public ArrayList<Speler> getSpelers() {
+        return spelers;
+    }
+
+    public Speler getSpelerAanZet() {
+        return spelerAanZet;
+    }
+
+    public ArrayList<Actie> getActies() {
+        return acties;
+    }
+
+    public Hutkaart[][] getStapels() {
+        return stapels;
     }
 }

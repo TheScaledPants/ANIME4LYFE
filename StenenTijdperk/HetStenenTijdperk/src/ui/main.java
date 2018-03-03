@@ -5,7 +5,8 @@
  */
 package ui;
 
-import domein.Speler;
+import domein.DomeinController;
+import java.util.Scanner;
 
 /**
  *
@@ -13,7 +14,27 @@ import domein.Speler;
  */
 public class main {
     public static void main(String[] args){
-        Speler speler = new Speler(1);
-        System.out.println(speler.toString());
+        DomeinController domeinController = new DomeinController();
+        Scanner input = new Scanner(System.in);
+        
+        System.out.printf("Welkom bij stenen tijdperk. "
+                + "%nWat wil je doen:%n"
+                + "1. Nieuw spel starten%n"
+                + "2. Spel hervaten%n"
+                + "3. Highscores bekijken%n"
+                + "Typ je keuze: ");
+        switch(input.nextInt()){
+            case 1:
+                System.out.print("Met hoeveel wil je spelen: ");
+                domeinController.startSpel(input.nextInt());
+                System.out.println(domeinController.geefSpelbord());
+                break;
+            default:
+                System.out.println("Dit is geen geldige input");
+                break;
+        }            
+        
+        
+
     }
 }

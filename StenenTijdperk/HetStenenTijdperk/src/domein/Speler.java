@@ -22,6 +22,7 @@ public class Speler {
             aantalHout,
             score;
     private ArrayList<Stamlid> stamleden = new ArrayList<>();
+    private Gereedschapsfiche[] gereedschappen = new Gereedschapsfiche[3];
     public Speler(int spelerNummer){
         this.spelerNummer = spelerNummer;
         
@@ -34,7 +35,10 @@ public class Speler {
     
     @Override
     public String toString(){
-        return "";
+        return String.format("Speler %d met score %d en %n"
+                + "Hout: %d, Leem: %d, Steen: %d, Goud: %d%n"
+                + "Voedsel : %d, voedselproductie: %d per beurt%n"
+                + "Stamleden: %d%n", getSpelerNummer(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
     }
     
     public int getAantalGoud(){
