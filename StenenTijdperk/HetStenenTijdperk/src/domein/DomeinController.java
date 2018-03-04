@@ -36,4 +36,12 @@ public class DomeinController {
     public String geefInfoBeschikbarePlaatsen(){
         return spel.geefInfoBeschikbarePlaatsen();
     }
+
+    public boolean alleStamledenGeplaatstSpelerAanZet() {
+        return spel.alleStamledenGeplaatstSpelerAanZet();
+    }
+
+    public void volgendeSpeler() {
+        spel.volgendeSpeler();
+    }
 }

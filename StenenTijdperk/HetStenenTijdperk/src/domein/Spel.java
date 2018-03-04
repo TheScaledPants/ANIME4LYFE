@@ -97,11 +97,12 @@ public class Spel {
         return uitvoer;
     }
     public boolean alleStamledenGeplaatst(){
-        boolean stamledenGeplaatst = true;
         for(Speler speler : spelers){
-            stamledenGeplaatst = speler.alleStamledenGeplaatst() && stamledenGeplaatst;
+            if(!alleStamledenGeplaatstSpeler(speler)){
+                return false;
+            }
         }
-        return stamledenGeplaatst;
+        return true;
     }
     public String geefSpelerAanZet(){
         return String.format("%nDe speler aan zet is %s%n" ,spelerAanZet.getNaam());
@@ -114,7 +115,19 @@ public class Spel {
         return spelerAanZet;
     }
 
-    boolean plaatsIsValid(int plaats, int aantalStamleden) {
-        return acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden && spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats)); 
+    public boolean plaatsIsValid(int plaats, int aantalStamleden) {
+        return acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden && spelerAanZet.geefBeschikbareStamleden() >= aantalStamleden && spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats)); 
+    }
+
+    public boolean alleStamledenGeplaatstSpeler(Speler speler) {
+        return speler.geefBeschikbareStamleden() == 0;
+    }
+
+    public void volgendeSpeler() {
+        spelerAanZet = spelers.get(spelerAanZet.getSpelerNummer() % spelers.size());
+    }
+
+    public boolean alleStamledenGeplaatstSpelerAanZet() {
+        return alleStamledenGeplaatstSpeler(spelerAanZet);
     }
 }

@@ -40,23 +40,21 @@ public class main {
                 System.out.println(domeinController.geefSpelbord());
 
                 while (!domeinController.alleStamledenGeplaatst()) {
-                    System.out.println(domeinController.geefSpelerAanZet());
-                    System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
-                    /*do {
-                        System.out.print("Waar wil je je stamleden plaatsen (typ \"?\" voor beschikbare plaatsen): ");
-                        plaats = plaatsCode(input.next());
-                        if ("?".equals(plaats)) {
-                            System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
-                        }
-                    } while ("?".equals(plaats));*/
-                    do  {
-                        System.out.print("Waar wil je je stamleden plaatsen: ");
-                        plaats = plaatsCode(input.next());
-                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
-                        aantalStamleden = input.nextInt();
-                    }while(!domeinController.plaatsIsValid(plaats, aantalStamleden));
-                    domeinController.plaatsStamleden(plaats, aantalStamleden);
+                    if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
+                        System.out.println(domeinController.geefSpelerAanZet());
+                        System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
+                        do {
+                            System.out.print("Waar wil je je stamleden plaatsen: ");
+                            plaats = plaatsCode(input.next());
+                            System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                            aantalStamleden = input.nextInt();
+                        } while (!domeinController.plaatsIsValid(plaats, aantalStamleden));
+                        domeinController.plaatsStamleden(plaats, aantalStamleden);
+                    }
+                    domeinController.volgendeSpeler();
                 }
+                System.out.println("Iteratie 1 compleet");
+                break;
             default:
                 System.out.println("Dit is geen geldige input");
                 break;

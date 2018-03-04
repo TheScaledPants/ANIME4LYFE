@@ -52,7 +52,9 @@ public class Speler {
     public void plaatsStamleden(Actie plaats, int aantalStamleden){
         for(int i = geplaatsteStamleden; i < aantalStamleden + geplaatsteStamleden; i++){
             stamleden.get(i).plaatsOp(plaats);
+            
         }
+        geplaatsteStamleden += aantalStamleden;
     }
     public boolean heeftGeenStamledenOpPlaats(Actie plaats){
         for(Stamlid stamlid : stamleden){
@@ -62,6 +64,15 @@ public class Speler {
         }
         return true;
     }
+    public int geefAantalStamleden() {
+        return stamleden.size();
+    }
+    public int geefBeschikbareStamleden(){
+        return geefAantalStamleden() - geplaatsteStamleden;
+    }
+    
+    
+    
     public int getAantalGoud(){
         return aantalGoud;
     }
@@ -89,7 +100,7 @@ public class Speler {
     public int getAantalHout() {
         return aantalHout;
     }
-
+    
     public int getScore() {
         return score;
     }
