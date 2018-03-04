@@ -6,6 +6,7 @@
 package ui;
 
 import domein.DomeinController;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,12 +14,12 @@ import java.util.Scanner;
  * @author jasperdesmet
  */
 public class main {
-
-    public static void main(String[] args) {
-        DomeinController domeinController = new DomeinController();
-        Scanner input = new Scanner(System.in);
-        int plaats;
-        int aantalSpelers, aantalStamleden;
+    
+    public static DomeinController domeinController = new DomeinController();
+    public static Scanner input = new Scanner(System.in);
+    
+    public static void main(String[] args) throws IOException {
+        int aantalSpelers;
         String[] namen;
 
         System.out.printf("Welkom bij stenen tijdperk. "
@@ -38,8 +39,23 @@ public class main {
                 }
                 domeinController.startSpel(aantalSpelers, namen);
                 System.out.println(domeinController.geefSpelbord());
+                
+                System.out.println("druk op enter om te beginnen");
+                System.in.read();
+                
+                plaatsStamleden();
+                
+                System.out.println("Iteratie 1 compleet");
+                break;
+            default:
+                System.out.println("Dit is geen geldige input");
+                break;
+        }
 
-                while (!domeinController.alleStamledenGeplaatst()) {
+    }
+    public static void plaatsStamleden(){
+        int plaats, aantalStamleden;
+        while (!domeinController.alleStamledenGeplaatst()) {
                     if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
                         System.out.println(domeinController.geefSpelerAanZet());
                         System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
@@ -53,15 +69,7 @@ public class main {
                     }
                     domeinController.volgendeSpeler();
                 }
-                System.out.println("Iteratie 1 compleet");
-                break;
-            default:
-                System.out.println("Dit is geen geldige input");
-                break;
-        }
-
     }
-
     public static int plaatsCode(String plaats) {
         switch (plaats.toLowerCase()) {
             case "akker":

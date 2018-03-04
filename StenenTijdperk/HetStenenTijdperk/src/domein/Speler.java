@@ -42,17 +42,9 @@ public class Speler {
                 + "Voedsel : %d, voedselproductie: %d per beurt%n"
                 + "Stamleden: %d%n",getSpelerNummer(),getNaam(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
     }
-    public boolean alleStamledenGeplaatst(){
-        for(Stamlid stamlid : stamleden){
-            if(stamlid.getPlaats() == null)
-                return false;
-        }
-        return true;
-    }
     public void plaatsStamleden(Actie plaats, int aantalStamleden){
         for(int i = geplaatsteStamleden; i < aantalStamleden + geplaatsteStamleden; i++){
-            stamleden.get(i).plaatsOp(plaats);
-            
+            stamleden.get(i).plaatsOp(plaats);   
         }
         geplaatsteStamleden += aantalStamleden;
     }
