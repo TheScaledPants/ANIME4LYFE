@@ -14,11 +14,17 @@ public class DomeinController {
     public void startSpel(int aantalSpelers,String[] namen){
         spel = new Spel(aantalSpelers,namen);
     }
+    public void plaatsStamleden(int plaats, int aantalStamleden){
+        spel.plaatsStamleden(plaats,aantalStamleden);
+    }
     public String geefSpelerAanZet(){
         return spel.geefSpelerAanZet();
     }
     public String geefSpelbord(){
         return spel.toString();
+    }
+    public boolean plaatsIsValid(int plaats,int aantalStamleden){
+        return spel.plaatsIsValid(plaats, aantalStamleden);
     }
     public boolean isEindeSpel(){
         //Todo iteratie 2

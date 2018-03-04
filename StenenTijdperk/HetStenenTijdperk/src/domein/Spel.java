@@ -67,7 +67,7 @@ public class Spel {
     
     private void bepaalSpelerAanZet(int aantalSpelers){
         Random rand = new Random();
-        spelerAanZet = getSpelers().get(rand.nextInt(aantalSpelers));
+        spelerAanZet = spelers.get(rand.nextInt(aantalSpelers));
     }
     
     @Override
@@ -83,7 +83,6 @@ public class Spel {
                         toString += String.format("Stapel %d: %s",stapelNummer, hutkaart.toString());
             stapelNummer++;
         }
-        toString += geefSpelerAanZet();
             
         
         return toString;
@@ -107,19 +106,15 @@ public class Spel {
     public String geefSpelerAanZet(){
         return String.format("%nDe speler aan zet is %s%n" ,spelerAanZet.getNaam());
     }
-    public ArrayList<Speler> getSpelers() {
-        return spelers;
+    public void plaatsStamleden(int plaats, int aantalStamleden){
+        acties.get(plaats).verhoogBezettePlaatsen(aantalStamleden);
+        spelerAanZet.plaatsStamleden(acties.get(plaats),aantalStamleden);
     }
-
     public Speler getSpelerAanZet() {
         return spelerAanZet;
     }
 
-    public ArrayList<Actie> getActies() {
-        return acties;
-    }
-
-    public Hutkaart[][] getStapels() {
-        return stapels;
+    boolean plaatsIsValid(int plaats, int aantalStamleden) {
+        return acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden && spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats)); 
     }
 }

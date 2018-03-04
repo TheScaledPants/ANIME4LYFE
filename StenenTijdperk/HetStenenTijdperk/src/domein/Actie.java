@@ -19,5 +19,7 @@ public abstract class Actie {
     public int geefBeschikbarePlaatsen(){
       return maximumStamleden - aantalBezettePlaatsen;  
     }
-        
+    public void verhoogBezettePlaatsen(int aantalStamleden){
+       aantalBezettePlaatsen += aantalStamleden;
+    }   
 }

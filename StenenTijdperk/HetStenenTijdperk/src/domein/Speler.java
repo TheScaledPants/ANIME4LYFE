@@ -20,7 +20,8 @@ public class Speler {
             aantalSteen,
             aantalLeem,
             aantalHout,
-            score;
+            score,
+            geplaatsteStamleden;
     private String naam;
     private ArrayList<Stamlid> stamleden = new ArrayList<>();
     private Gereedschapsfiche[] gereedschappen = new Gereedschapsfiche[3];
@@ -39,12 +40,25 @@ public class Speler {
         return String.format("Speler %d %s met score %d en %n"
                 + "Hout: %d, Leem: %d, Steen: %d, Goud: %d%n"
                 + "Voedsel : %d, voedselproductie: %d per beurt%n"
-                + "Stamleden: %d%n",getSpelerNummer(),naam,getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
+                + "Stamleden: %d%n",getSpelerNummer(),getNaam(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
     }
     public boolean alleStamledenGeplaatst(){
         for(Stamlid stamlid : stamleden){
             if(stamlid.getPlaats() == null)
                 return false;
+        }
+        return true;
+    }
+    public void plaatsStamleden(Actie plaats, int aantalStamleden){
+        for(int i = geplaatsteStamleden; i < aantalStamleden + geplaatsteStamleden; i++){
+            stamleden.get(i).plaatsOp(plaats);
+        }
+    }
+    public boolean heeftGeenStamledenOpPlaats(Actie plaats){
+        for(Stamlid stamlid : stamleden){
+            if (stamlid.getPlaats() == plaats){
+                return false;
+            }
         }
         return true;
     }

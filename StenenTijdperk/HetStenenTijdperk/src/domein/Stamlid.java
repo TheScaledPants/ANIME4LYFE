@@ -15,5 +15,7 @@ public class Stamlid {
     public Actie getPlaats() {
         return plaats;
     }
-    
+    public void plaatsOp(Actie plaats){
+        this.plaats = plaats;
+    }
 }
