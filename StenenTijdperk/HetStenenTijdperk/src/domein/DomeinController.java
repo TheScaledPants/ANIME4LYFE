@@ -11,8 +11,8 @@ package domein;
  */
 public class DomeinController {
     private Spel spel;
-    public void startSpel(int aantalSpelers){
-        spel = new Spel(aantalSpelers);
+    public void startSpel(int aantalSpelers,String[] namen){
+        spel = new Spel(aantalSpelers,namen);
     }
     public String geefSpelerAanZet(){
         return spel.geefSpelerAanZet();

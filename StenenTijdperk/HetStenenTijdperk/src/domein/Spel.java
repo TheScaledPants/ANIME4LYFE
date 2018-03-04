@@ -19,7 +19,9 @@ public class Spel {
     private Speler spelerAanZet;
     private ArrayList<Actie> acties = new ArrayList<>();
     private Hutkaart[][] stapels = new Hutkaart[4][7];
-    public Spel(int aantalSpelers){
+    
+    //Constructor
+    public Spel(int aantalSpelers, String[] namen){
         
         //Grondstoffen toevoegen
         grondstoffen[0] = new Grondstof(2, "Voedsel");
@@ -30,7 +32,7 @@ public class Spel {
         
         //Spelers toevoegen
         for(int i = 1;i <= aantalSpelers; i++){
-            spelers.add(new Speler(i));
+            spelers.add(new Speler(i,namen[i - 1]));
         }
         bepaalSpelerAanZet(aantalSpelers);
         
@@ -103,7 +105,7 @@ public class Spel {
         return stamledenGeplaatst;
     }
     public String geefSpelerAanZet(){
-        return String.format("%nDe speler aan zet is speler %d%n" ,spelerAanZet.getSpelerNummer());
+        return String.format("%nDe speler aan zet is %s%n" ,spelerAanZet.getNaam());
     }
     public ArrayList<Speler> getSpelers() {
         return spelers;

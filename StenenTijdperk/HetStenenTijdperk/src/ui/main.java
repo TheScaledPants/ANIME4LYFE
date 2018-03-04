@@ -17,6 +17,8 @@ public class main {
         DomeinController domeinController = new DomeinController();
         Scanner input = new Scanner(System.in);
         String invoer;
+        int aantalSpelers;
+        String[] namen;
         
         System.out.printf("Welkom bij stenen tijdperk. "
                 + "%nWat wil je doen:%n"
@@ -27,7 +29,13 @@ public class main {
         switch(input.nextInt()){
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
-                domeinController.startSpel(input.nextInt());
+                aantalSpelers = input.nextInt();
+                namen = new String[aantalSpelers];
+                for(int i = 0;i < aantalSpelers;i++){
+                    System.out.printf("Geef naam van speler %d: ", i + 1);
+                    namen[i] = input.next();
+                }
+                domeinController.startSpel(aantalSpelers,namen);
                 System.out.println(domeinController.geefSpelbord());
 
                 while(!domeinController.alleStamledenGeplaatst()){

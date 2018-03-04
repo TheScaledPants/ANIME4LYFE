@@ -21,11 +21,12 @@ public class Speler {
             aantalLeem,
             aantalHout,
             score;
+    private String naam;
     private ArrayList<Stamlid> stamleden = new ArrayList<>();
     private Gereedschapsfiche[] gereedschappen = new Gereedschapsfiche[3];
-    public Speler(int spelerNummer){
+    public Speler(int spelerNummer,String naam){
         this.spelerNummer = spelerNummer;
-        
+        this.naam = naam;
         stamleden.add(new Stamlid());
         stamleden.add(new Stamlid());
         stamleden.add(new Stamlid());
@@ -35,10 +36,10 @@ public class Speler {
     
     @Override
     public String toString(){
-        return String.format("Speler %d met score %d en %n"
+        return String.format("Speler %d %s met score %d en %n"
                 + "Hout: %d, Leem: %d, Steen: %d, Goud: %d%n"
                 + "Voedsel : %d, voedselproductie: %d per beurt%n"
-                + "Stamleden: %d%n", getSpelerNummer(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
+                + "Stamleden: %d%n",getSpelerNummer(),naam,getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
     }
     public boolean alleStamledenGeplaatst(){
         for(Stamlid stamlid : stamleden){
@@ -78,5 +79,8 @@ public class Speler {
     public int getScore() {
         return score;
     }
-
+    
+    public String getNaam() {
+        return naam;
+    }
 }
