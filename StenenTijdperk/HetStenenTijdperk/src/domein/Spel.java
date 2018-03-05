@@ -116,14 +116,15 @@ public class Spel {
     }
 
     public boolean plaatsIsValid(int plaats, int aantalStamleden) {
+        if (plaats == 9)
+            throw new IllegalArgumentException("Fout: Dit is geen geldige plaats");
         if(!(acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden))
             throw new IllegalArgumentException("Fout: Er zijn niet genoeg plaatsen voor het aantal stamleden");
         if(!(spelerAanZet.geefBeschikbareStamleden() >= aantalStamleden))
             throw new IllegalArgumentException("Fout: je hebt niet zoveel stamleden");
         if(!(spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats))))
             throw new IllegalArgumentException("Fout: je hebt in een vorige beurt al stamleden geplaats op deze plaats");
-        if (plaats == 9)
-            throw new IllegalArgumentException("Fout: Dit is geen geldige plaats");
+        
         return acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden && spelerAanZet.geefBeschikbareStamleden() >= aantalStamleden && spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats)); 
     }
 

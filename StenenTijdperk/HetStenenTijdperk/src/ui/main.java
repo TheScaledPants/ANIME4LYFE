@@ -21,7 +21,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         int aantalSpelers;
         String[] namen;
-
+        
         System.out.printf("Welkom bij stenen tijdperk. "
                 + "%nWat wil je doen:%n"
                 + "1. Nieuw spel starten%n"
@@ -32,9 +32,7 @@ public class main {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
                 aantalSpelers = input.nextInt();
-                while(aantalSpelers > 1 && aantalSpelers < 5){
-                    aantalSpelers = input.nextInt();
-                }
+
                 
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
@@ -58,6 +56,7 @@ public class main {
 
     }
     public static void plaatsStamleden(){
+        boolean loop = false;
         int plaats = 0, aantalStamleden = 0;
         while (!domeinController.alleStamledenGeplaatst()) {
                     if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
@@ -65,14 +64,17 @@ public class main {
                         System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
                         do {
                             try {
+                                
                                 System.out.print("Waar wil je je stamleden plaatsen: ");
                                 plaats = plaatsCode(input.next());
                                 System.out.print("Hoeveel stamleden wil je plaatsen: ");
                                 aantalStamleden = input.nextInt();
-                            }catch(IllegalArgumentException e){
+                                loop = domeinController.plaatsIsValid(plaats, aantalStamleden);
+                            }catch(Exception e){
                                 System.out.println(e.getMessage());
                             }
-                        } while (!domeinController.plaatsIsValid(plaats, aantalStamleden));
+                        } while (!loop);
+                        loop = false;
                         domeinController.plaatsStamleden(plaats, aantalStamleden);
                     }
                     domeinController.volgendeSpeler();
