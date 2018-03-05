@@ -70,8 +70,14 @@ public class main {
                                 
                                 System.out.print("Waar wil je je stamleden plaatsen: ");
                                 plaats = plaatsCode(input.next());
-                                System.out.print("Hoeveel stamleden wil je plaatsen: ");
-                                aantalStamleden = input.nextInt();
+                                if(plaats ==  1){
+                                    aantalStamleden = 2;
+                                }else if(plaats == 0 || plaats == 3){
+                                    aantalStamleden = 1;
+                                } else {
+                                    System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                                    aantalStamleden = input.nextInt();
+                                }
                                 loop = domeinController.plaatsIsValid(plaats, aantalStamleden);
                             }catch(Exception e){
                                 System.out.println(e.getMessage());
