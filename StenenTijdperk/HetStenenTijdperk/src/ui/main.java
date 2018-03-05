@@ -31,11 +31,13 @@ public class main {
         switch (input.nextInt()) {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
+                do
+                {
                 aantalSpelers = input.nextInt();
-                while(aantalSpelers > 1 && aantalSpelers < 5){
-                    aantalSpelers = input.nextInt();
-                }
-                
+                System.out.println("Aantal spelers: min 2, max 4");
+                System.out.println("Met hoeveel spelers wil je spelen?: ");
+                }while(!(aantalSpelers > 1 && aantalSpelers < 5));
+                        
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
                     System.out.printf("Geef naam van speler %d: ", i + 1);
