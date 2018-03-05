@@ -32,7 +32,10 @@ public class main {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
                 aantalSpelers = input.nextInt();
-
+                while(!(aantalSpelers > 1 && aantalSpelers < 5)){
+                    System.out.print("Geef een aantal spelers tussen 2 en 4: ");
+                    aantalSpelers = input.nextInt();
+                }
                 
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
