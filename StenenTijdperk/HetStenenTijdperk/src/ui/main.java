@@ -32,6 +32,10 @@ public class main {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
                 aantalSpelers = input.nextInt();
+                while(aantalSpelers > 1 && aantalSpelers < 5){
+                    aantalSpelers = input.nextInt();
+                }
+                
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
                     System.out.printf("Geef naam van speler %d: ", i + 1);
@@ -54,16 +58,20 @@ public class main {
 
     }
     public static void plaatsStamleden(){
-        int plaats, aantalStamleden;
+        int plaats = 0, aantalStamleden = 0;
         while (!domeinController.alleStamledenGeplaatst()) {
                     if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
                         System.out.println(domeinController.geefSpelerAanZet());
                         System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
                         do {
-                            System.out.print("Waar wil je je stamleden plaatsen: ");
-                            plaats = plaatsCode(input.next());
-                            System.out.print("Hoeveel stamleden wil je plaatsen: ");
-                            aantalStamleden = input.nextInt();
+                            try {
+                                System.out.print("Waar wil je je stamleden plaatsen: ");
+                                plaats = plaatsCode(input.next());
+                                System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                                aantalStamleden = input.nextInt();
+                            }catch(IllegalArgumentException e){
+                                System.out.println(e.getMessage());
+                            }
                         } while (!domeinController.plaatsIsValid(plaats, aantalStamleden));
                         domeinController.plaatsStamleden(plaats, aantalStamleden);
                     }
