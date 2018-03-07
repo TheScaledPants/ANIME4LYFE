@@ -14,14 +14,14 @@ import java.util.Scanner;
  * @author jasperdesmet
  */
 public class main {
-    
+
     public static DomeinController domeinController = new DomeinController();
     public static Scanner input = new Scanner(System.in);
-    
+
     public static void main(String[] args) throws IOException {
         int aantalSpelers;
         String[] namen;
-        
+
         System.out.printf("Welkom bij stenen tijdperk. "
                 + "%nWat wil je doen:%n"
                 + "1. Nieuw spel starten%n"
@@ -32,11 +32,11 @@ public class main {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
                 aantalSpelers = input.nextInt();
-                while(!(aantalSpelers > 1 && aantalSpelers < 5)){
+                while (!(aantalSpelers > 1 && aantalSpelers < 5)) {
                     System.out.print("Geef een aantal spelers tussen 2 en 4: ");
                     aantalSpelers = input.nextInt();
                 }
-                
+
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
                     System.out.printf("Geef naam van speler %d: ", i + 1);
@@ -44,12 +44,12 @@ public class main {
                 }
                 domeinController.startSpel(aantalSpelers, namen);
                 System.out.println(domeinController.geefSpelbord());
-                
+
                 System.out.println("druk op enter om te beginnen");
                 System.in.read();
-                
+
                 plaatsStamleden();
-                
+
                 System.out.println("Iteratie 1 compleet");
                 break;
             default:
@@ -58,56 +58,74 @@ public class main {
         }
 
     }
-    public static void plaatsStamleden(){
+
+    public static void plaatsStamleden() {
         boolean loop = false;
-        int plaats = 0, aantalStamleden = 0;
+        int infoPlaats[] = {0, 0}, aantalStamleden = 0;
         while (!domeinController.alleStamledenGeplaatst()) {
-                    if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
-                        System.out.println(domeinController.geefSpelerAanZet());
-                        System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
-                        do {
-                            try {
-                                
-                                System.out.print("Waar wil je je stamleden plaatsen: ");
-                                plaats = plaatsCode(input.next());
-                                if(plaats ==  1){
-                                    aantalStamleden = 2;
-                                }else if(plaats == 0 || plaats == 3){
-                                    aantalStamleden = 1;
-                                } else {
-                                    System.out.print("Hoeveel stamleden wil je plaatsen: ");
-                                    aantalStamleden = input.nextInt();
-                                }
-                                loop = domeinController.plaatsIsValid(plaats, aantalStamleden);
-                            }catch(Exception e){
-                                System.out.println(e.getMessage());
-                            }
-                        } while (!loop);
-                        loop = false;
-                        domeinController.plaatsStamleden(plaats, aantalStamleden);
+            if (!domeinController.alleStamledenGeplaatstSpelerAanZet()) {
+                System.out.println(domeinController.geefSpelerAanZet());
+                System.out.println(domeinController.geefInfoBeschikbarePlaatsen());
+                do {
+                    try {
+                        infoPlaats = plaatsArray();
+                        loop = domeinController.plaatsIsValid(infoPlaats[0], infoPlaats[1]);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
-                    domeinController.volgendeSpeler();
-                }
+                } while (!loop);
+                loop = false;
+                domeinController.plaatsStamleden(infoPlaats[0], infoPlaats[1]);
+            }
+            domeinController.volgendeSpeler();
+        }
     }
-    public static int plaatsCode(String plaats) {
+
+    public static int[] plaatsArray() {
+        int[] A;
+        System.out.print("Waar wil je je stamleden plaatsen: ");
+        String plaats = input.next();
+        
         switch (plaats.toLowerCase()) {
             case "akker":
-                return 0;
+                return new int[]{0, 1};
             case "hut":
-                return 1;
-            case "jacht":
-                return 2;
+                return A = new int[]{1, 2};
             case "gereedschapsmaker":
-                return 3;
-            case "bos":
-                return 4;
-            case "leemgroeve":
-                return 5;
-            case "steengroeve":
-                return 6;
-            case "rivier":
-                return 7;
+                return A = new int[]{3, 1};
+            case "hutkaart":
+                System.out.print("Op welke stapel wil je je hutkaar leggen: ");
+                switch (input.next()) {
+                    case "1":
+                        return A = new int[]{8, 1};
+                    case "2":
+                        return A = new int[]{9, 1};
+                    case "3":
+                        return A = new int[]{10, 1};
+                    case "4":
+                        return A = new int[]{11, 1};
+                }
+            default:
+                switch (plaats.toLowerCase()) {
+                    case "jacht":
+                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                        return A = new int[]{2, input.nextInt()};
+                    case "bos":
+                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                        return A = new int[]{4, input.nextInt()};
+                    case "leemgroeve":
+                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                        return A = new int[]{5, input.nextInt()};
+                    case "steengroeve":
+                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                        return A = new int[]{6, input.nextInt()};
+                    case "rivier":
+                        System.out.print("Hoeveel stamleden wil je plaatsen: ");
+                        return A = new int[]{7, input.nextInt()};
+
+                }
+                
         }
-        return 9;
+        return A = new int[]{-1, 0};
     }
 }

@@ -61,6 +61,7 @@ public class Spel {
             }
             grondstoffenList.clear();
             stapel[0].Actief();
+            acties.add(stapel[0]);
         }
         
     }
@@ -116,7 +117,7 @@ public class Spel {
     }
 
     public boolean plaatsIsValid(int plaats, int aantalStamleden) {
-        if (plaats == 9)
+        if (plaats == -1)
             throw new IllegalArgumentException("Fout: Dit is geen geldige plaats");
         if(!(acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden))
             throw new IllegalArgumentException("Fout: Er zijn niet genoeg plaatsen voor het aantal stamleden");
