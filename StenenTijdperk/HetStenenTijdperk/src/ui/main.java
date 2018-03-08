@@ -74,6 +74,7 @@ public class main {
                         System.out.println(e.getMessage());
                     }
                 } while (!loop);
+                System.out.println("✓ Stamlid geplaatst");
                 loop = false;
                 domeinController.plaatsStamleden(infoPlaats[0], infoPlaats[1]);
             }
@@ -94,7 +95,7 @@ public class main {
             case "gereedschapsmaker":
                 return A = new int[]{3, 1};
             case "hutkaart":
-                System.out.print("Op welke stapel wil je je hutkaar leggen: ");
+                System.out.print("Op welke stapel wil je je stamlid plaatsen: ");
                 switch (input.next()) {
                     case "1":
                         return A = new int[]{8, 1};

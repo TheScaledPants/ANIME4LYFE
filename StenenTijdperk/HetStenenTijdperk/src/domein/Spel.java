@@ -48,7 +48,7 @@ public class Spel {
         //genereren hutkaarten
         Random rand = new Random();
         ArrayList<Grondstof> grondstoffenList = new ArrayList<>();
-        
+        int i = 1;
         for(Hutkaart[] stapel : stapels){
             for(int t = 0; t < stapel.length; t++){
                 
@@ -57,9 +57,10 @@ public class Spel {
                 grondstoffenList.add(grondstoffen[rand.nextInt(4) + 1]);
                 
                 grondstoffenList.sort((Grondstof o1, Grondstof o2) -> o1.getWaarde()-o2.getWaarde());
-                stapel[t] = new Hutkaart(grondstoffenList);
+                stapel[t] = new Hutkaart(grondstoffenList, i);
             }
             grondstoffenList.clear();
+            i++;
             stapel[0].Actief();
             acties.add(stapel[0]);
         }
@@ -73,19 +74,9 @@ public class Spel {
     
     @Override
     public String toString(){
-        int stapelNummer = 1;
         String toString = String.format("%nSpel met %d spelers.%n",spelers.size());;
         for(Speler speler : spelers)
-            toString += String.format("%s%n", speler.toString());
-        toString += String.format("De actieve hutkaarten zijn%n");
-        for(Hutkaart[] stapel : stapels){
-            for(Hutkaart hutkaart : stapel)
-                    if (hutkaart.getActief())
-                        toString += String.format("Stapel %d: %s",stapelNummer, hutkaart.toString());
-            stapelNummer++;
-        }
-            
-        
+            toString += String.format("%s%n", speler.toString()); 
         return toString;
     }
     public String geefInfoBeschikbarePlaatsen(){
@@ -106,7 +97,7 @@ public class Spel {
         return true;
     }
     public String geefSpelerAanZet(){
-        return String.format("%nDe speler aan zet is %s%n" ,spelerAanZet.getNaam());
+        return String.format("%nDe speler aan zet is %s, je hebt nog %d stamleden over%n" ,spelerAanZet.getNaam(),spelerAanZet.geefBeschikbareStamleden());
     }
     public void plaatsStamleden(int plaats, int aantalStamleden){
         acties.get(plaats).verhoogBezettePlaatsen(aantalStamleden);
