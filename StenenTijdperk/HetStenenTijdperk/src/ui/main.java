@@ -28,8 +28,8 @@ public class main {
                 + "2. Spel hervaten%n"
                 + "3. Highscores bekijken%n"
                 + "Typ je keuze: ");
-        switch (input.nextInt()) {
-            case 1:
+        switch (input.next()) {
+            case "1":
                 System.out.print("Met hoeveel wil je spelen: ");
                 aantalSpelers = input.nextInt();
                 while (!(aantalSpelers > 1 && aantalSpelers < 5)) {
