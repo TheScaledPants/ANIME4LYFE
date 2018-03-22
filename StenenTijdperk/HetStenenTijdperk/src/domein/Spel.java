@@ -19,10 +19,11 @@ public class Spel {
     private Speler spelerAanZet;
     private ArrayList<Actie> acties = new ArrayList<>();
     private Hutkaart[][] stapels = new Hutkaart[4][7];
-    
+    private Speler startSpeler;
+    private boolean eindeSpel;
     //Constructor
-    public Spel(int aantalSpelers, String[] namen){
-        
+    public Spel(String[] namen){
+        int aantalSpelers = namen.length;
         //Grondstoffen toevoegen
         grondstoffen[0] = new Grondstof(2, "Voedsel");
         grondstoffen[1] = new Grondstof(3, "Hout");
@@ -58,18 +59,19 @@ public class Spel {
                 
                 grondstoffenList.sort((Grondstof o1, Grondstof o2) -> o1.getWaarde()-o2.getWaarde());
                 stapel[t] = new Hutkaart(grondstoffenList, i);
+                grondstoffenList.clear();
             }
-            grondstoffenList.clear();
             i++;
             stapel[0].Actief();
             acties.add(stapel[0]);
         }
-        
+        eindeSpel = false;
     }
     
     private void bepaalSpelerAanZet(int aantalSpelers){
         Random rand = new Random();
         spelerAanZet = spelers.get(rand.nextInt(aantalSpelers));
+        startSpeler = spelerAanZet;
     }
     
     @Override
@@ -97,11 +99,78 @@ public class Spel {
         return true;
     }
     public String geefSpelerAanZet(){
-        return String.format("%nDe speler aan zet is %s, je hebt nog %d stamleden over%n" ,spelerAanZet.getNaam(),spelerAanZet.geefBeschikbareStamleden());
+        return String.format("%nDe speler aan zet is %s",spelerAanZet.getNaam());
+    }
+    public String geefSpelerAanZetPlaatsen(){
+        return String.format("%s, je hebt nog %d stamleden over%n",geefSpelerAanZet(),spelerAanZet.geefBeschikbareStamleden());
     }
     public void plaatsStamleden(int plaats, int aantalStamleden){
         acties.get(plaats).verhoogBezettePlaatsen(aantalStamleden);
         spelerAanZet.plaatsStamleden(acties.get(plaats),aantalStamleden);
+    }
+    public int geefIndexActieveHutkaart(int stapel){
+        int i = 0;
+        for (Hutkaart kaart : stapels[stapel]){
+            if (kaart.getActief()){
+               return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+    public boolean getEindeSpel() {
+        return eindeSpel;
+    }
+    public void doeActie(int plaats) {
+        int nieuweHutkaart;
+        
+        switch(plaats){
+            case 8:
+                nieuweHutkaart = geefIndexActieveHutkaart(0) + 1;
+                acties.get(plaats).doeActie(spelerAanZet);
+                if(nieuweHutkaart == 7){
+                    eindeSpel = true;
+                } else {
+                    acties.set(8, stapels[0][nieuweHutkaart]);
+                    stapels[0][nieuweHutkaart].Actief();
+                }
+                break;
+            case 9:
+                nieuweHutkaart = geefIndexActieveHutkaart(1);
+                acties.get(plaats).doeActie(spelerAanZet);
+                if(nieuweHutkaart == -1){
+                    eindeSpel = true;
+                } else {
+                    acties.set(8, stapels[0][nieuweHutkaart]);
+                }
+                break;
+            case 10:
+                nieuweHutkaart = geefIndexActieveHutkaart(2) + 1;
+                acties.get(plaats).doeActie(spelerAanZet);
+                if(nieuweHutkaart == -1){
+                    eindeSpel = true;
+                } else {
+                    acties.set(8, stapels[0][nieuweHutkaart]);
+                }
+                break;
+            case 11:
+                nieuweHutkaart = geefIndexActieveHutkaart(2) + 1;
+                acties.get(plaats).doeActie(spelerAanZet);
+                if(nieuweHutkaart == -1){
+                    eindeSpel = true;
+                } else {
+                    acties.set(8, stapels[0][nieuweHutkaart]);
+                }
+                break;
+            default: 
+                acties.get(plaats).doeActie(spelerAanZet);
+                break;
+        }
+        
+        
+    }
+    public void doeActie(int plaats, int geworpenOgen) {
+        acties.get(plaats).doeActie(spelerAanZet, geworpenOgen);
     }
     public Speler getSpelerAanZet() {
         return spelerAanZet;
@@ -117,7 +186,16 @@ public class Spel {
         if(!(spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats))))
             throw new IllegalArgumentException("Fout: je hebt in een vorige beurt al stamleden geplaats op deze plaats");
         
-        return acties.get(plaats).geefBeschikbarePlaatsen() >= aantalStamleden && spelerAanZet.geefBeschikbareStamleden() >= aantalStamleden && spelerAanZet.heeftGeenStamledenOpPlaats(acties.get(plaats)); 
+        return true;
+    }
+    public boolean actieIsValid(int plaats) {
+        if (plaats == -1)
+            throw new IllegalArgumentException("Fout: Dit is geen geldige plaats");
+        for (String geefInfoActie : spelerAanZet.geefInfoActies()) {
+            if (geefInfoActie.equals(acties.get(plaats).geefNaam()))
+                return true;
+        }
+        throw new IllegalArgumentException("Fout: je hebt geen stamleden op die plaats"); 
     }
 
     public boolean alleStamledenGeplaatstSpeler(Speler speler) {
@@ -131,4 +209,99 @@ public class Spel {
     public boolean alleStamledenGeplaatstSpelerAanZet() {
         return alleStamledenGeplaatstSpeler(spelerAanZet);
     }
+
+    public int geefAantalSpelers() {
+        return spelers.size();
+    }
+
+    public boolean alleActiesUitgevoerdSpelerAanZet() {
+        return spelerAanZet.alleActiesUitgevoerd();
+    }
+
+    public String geefInfoActiesSpelerAanZet() {
+        String temp = String.format("Je hebt stamleden op: %n");
+        for(String info : spelerAanZet.geefInfoActies()){
+            temp += String.format("%s%n",info);
+        }
+        return temp;
+                
+    }
+
+    public int geefStamledenOpPlaatsSpelerAanZet(int plaats) {
+        return spelerAanZet.geefAantalStamledenOpPlaats(acties.get(plaats));
+    }
+
+    public String geefInfoSpelerAanZet() {
+        return spelerAanZet.toString();
+    }
+
+    public void verzetNaarStartSpeler() {
+        spelerAanZet = startSpeler;
+    }
+
+    public boolean spelerAanZetHeeftOngebruiktGereedschap() {
+        return spelerAanZet.heeftOngebruiktGereedschap();
+    }
+
+    public String geefInfoOngebruikteGereedschapsfichesSpelerAanZet() {
+        return spelerAanZet.geefInfoOngebruikteGereedschapsfiches();
+    }
+
+    public void gereedschapsficheIsValid(int gereedschapsfiche) {
+        spelerAanZet.gereedschapsficheIsValid(gereedschapsfiche);
+    }
+
+    public int gebruikGereedschapfiche(int gereedschapsfiche) {
+        return spelerAanZet.gebruikGereedschapfiche(gereedschapsfiche);
+    }
+
+    public void nieuweRonde() {
+        startSpeler = spelers.get(startSpeler.getSpelerNummer() + 1 % spelers.size());
+        for(Speler s : spelers){
+            s.nieuweRonde();
+        }
+        for(Actie a : acties){
+            a.resetGebruiktePlaatsen();
+        }
+    }
+
+    public void voedselProductie() {
+        for(Speler s : spelers){
+            s.produceerVoedsel();
+        }
+    }
+
+    public boolean HeeftGenoegVoedselspelerAanZet() {
+        return spelerAanZet.heeftGenoegVoedsel();
+    }
+
+    public void voedStamledenSpelerAanZet() {
+        spelerAanZet.voedStamleden();
+    }
+
+    public void voedStamledenSpelerAanZet(int methode) {
+        spelerAanZet.voedStamleden(methode);
+    }
+
+    public boolean heeftGenoegGrondstoffenSpelerAanZet() {
+        return spelerAanZet.heeftGenoegGrondstoffen();
+    }
+
+    public int[] geefGrondstoffenSpelerAanZet() {
+        return spelerAanZet.geefGrondstoffenSpelerAanZet();
+    }
+
+    public int nodigVoedselSpelerAanZet() {
+        return spelerAanZet.nodigVoedsel();
+    }
+
+    public void voedStamledenSpelerAanZet(int[] grondstoffen) {
+        spelerAanZet.voedStamledenSpelerAanZet(grondstoffen);
+    }
+
+    
+
+
+
+
 }

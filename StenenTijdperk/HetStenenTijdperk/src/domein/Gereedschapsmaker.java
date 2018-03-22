@@ -19,4 +19,14 @@ public class Gereedschapsmaker extends Actie{
         int beschikbaar = this.geefBeschikbarePlaatsen();
         return String.format("Gereedschapsmaker met %d vrije %s%n",beschikbaar, beschikbaar == 1 ? "plaats" : "plaatsen");
     }
+    @Override
+    public void doeActie(Speler speler) {
+        speler.verhoogGereedschapsfiche();
+        speler.verwijderStamledenVanPlaats(this);
+    }
+
+    @Override
+    public void doeActie(Speler speler, int aantalDobbelStenen) {
+        throw new UnsupportedOperationException();
+    }
 }

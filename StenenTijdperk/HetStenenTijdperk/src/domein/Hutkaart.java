@@ -24,7 +24,7 @@ public class Hutkaart extends Actie{
         actief = false;
     }
     public void Actief(){
-        actief = !actief;
+        actief = true;
     }
     public boolean getActief(){
         return actief;
@@ -37,5 +37,48 @@ public class Hutkaart extends Actie{
     
     public int berekenWaarde(){
         return kosten[0].getWaarde() + kosten[1].getWaarde() + kosten[2].getWaarde();
+    }
+    @Override
+    public void doeActie(Speler speler) {
+        int goudKost = 0,steenKost = 0,leemKost = 0,houtKost = 0;
+        for(Grondstof g : kosten){
+            switch(g.getNaam()){
+                case "Hout":
+                    houtKost++;
+                    break;
+                case "Steen":
+                    steenKost++;
+                    break;
+                case "Leem":
+                    leemKost++;
+                    break;
+                case "Goud":
+                    goudKost++;
+                    break;
+            }
+        }
+        System.out.println(speler.toString());
+        speler.verwijderStamledenVanPlaats(this);
+        if(speler.getAantalGoud() >= goudKost){
+            if(speler.getAantalHout() >= houtKost){
+                if(speler.getAantalLeem() >= leemKost){
+                    if(speler.getAantalSteen() >= steenKost){
+                        speler.verhoogScore(berekenWaarde());
+                        speler.gebruikGrondstoffen(goudKost, houtKost, leemKost, steenKost);
+                        actief = false;
+                        return;
+                    }
+                }
+            }
+        }
+        throw new IllegalArgumentException("Je hebt de juiste grondstoffen niet");
+    }
+    @Override
+    public String geefNaam(){
+        return "Hutkaart van stapel " + stapel; 
+    }
+    @Override
+    public void doeActie(Speler speler, int aantalDobbelStenen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

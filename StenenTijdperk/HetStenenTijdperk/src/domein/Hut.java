@@ -19,4 +19,13 @@ public class Hut extends Actie{
         int beschikbaar = this.geefBeschikbarePlaatsen();
         return String.format("Hut met %d vrije %s%n",beschikbaar, beschikbaar == 0 ? "plaats" : "plaatsen");
     }
+    public void doeActie(Speler speler) {
+        speler.verhoogStamleden();
+        speler.verwijderStamledenVanPlaats(this);
+    }
+
+    @Override
+    public void doeActie(Speler speler, int aantalDobbelStenen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
