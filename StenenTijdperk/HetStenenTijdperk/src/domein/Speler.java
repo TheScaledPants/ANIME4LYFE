@@ -16,10 +16,10 @@ public class Speler {
     private final int spelerNummer;
     private int voedselProductie,
             aantalVoedsel,
-            aantalGoud,
-            aantalSteen,
-            aantalLeem,
-            aantalHout,
+            aantalGoud =100,
+            aantalSteen =100,
+            aantalLeem =100,
+            aantalHout = 100,
             score,
             geplaatsteStamleden;
     private String naam;
@@ -33,6 +33,10 @@ public class Speler {
         stamleden.add(new Stamlid());
         stamleden.add(new Stamlid());
         stamleden.add(new Stamlid()); 
+        gereedschappen[0] = new Gereedschapsfiche();
+        gereedschappen[1] = new Gereedschapsfiche();
+        gereedschappen[2] = new Gereedschapsfiche();
+        aantalVoedsel = 12;
     }
     
     @Override
@@ -40,7 +44,11 @@ public class Speler {
         return String.format("Speler %d %s met score %d en %n"
                 + "Hout: %d, Leem: %d, Steen: %d, Goud: %d%n"
                 + "Voedsel : %d, voedselproductie: %d per beurt%n"
-                + "Stamleden: %d%n",getSpelerNummer(),getNaam(),getScore(),getAantalHout(),getAantalLeem(),getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size());
+                + "Stamleden: %d%n"
+                + "En Gereedschapsfiche: %d, %d, %d%n",
+                getSpelerNummer(),getNaam(),getScore(),getAantalHout(),getAantalLeem(),
+                getAantalSteen(),getAantalGoud(),getAantalVoedsel(),getVoedselProductie(),stamleden.size(),
+                gereedschappen[0].getKracht(),gereedschappen[1].getKracht(),gereedschappen[2].getKracht());
     }
     public void plaatsStamleden(Actie plaats, int aantalStamleden){
         for(int i = geplaatsteStamleden; i < aantalStamleden + geplaatsteStamleden; i++){
@@ -62,9 +70,90 @@ public class Speler {
     public int geefBeschikbareStamleden(){
         return geefAantalStamleden() - geplaatsteStamleden;
     }
-    
-    
-    
+    boolean alleActiesUitgevoerd() {
+        for(Stamlid stamlid : stamleden){
+            if (stamlid.getPlaats() != null){
+                return false;
+            }
+        }
+        return true;
+    }
+    public ArrayList<String> geefInfoActies() {
+        ArrayList<String> infoActies = new ArrayList<>();
+        String temp = "";
+        for(Stamlid stamlid : stamleden){
+            if (stamlid.getPlaats() != null){
+                if (!temp.equals(stamlid.getPlaats().geefNaam())){
+                    temp = stamlid.getPlaats().geefNaam();
+                    infoActies.add(stamlid.getPlaats().geefNaam());
+                }
+            }
+            
+        }
+        return infoActies;
+    }
+    public void verwijderStamledenVanPlaats(Actie plaats){
+        
+        for(Stamlid stamlid : stamleden){
+            if (stamlid.getPlaats() == plaats){
+                stamlid.plaatsOp(null);
+            }
+        }
+    }
+    public void verhoogVoedselProductie(){
+        voedselProductie++;
+    }
+    public void verhoogStamleden() {
+        stamleden.add(new Stamlid());
+    }
+    public void verhoogGereedschapsfiche(){
+        int som = 0;
+        for(Gereedschapsfiche g : gereedschappen){
+            som += g.getKracht();
+        }
+        gereedschappen[som % 3].verhoogKracht();
+    }
+    int geefAantalStamledenOpPlaats(Actie plaats) {
+        int i  = 0;
+        for(Stamlid stamlid : stamleden){
+            if(stamlid.getPlaats() == plaats){
+                i++;
+            }
+        }
+        return i;
+    }
+
+    void voegGrondstofToe(int i, String grondstof) {
+        switch(grondstof){
+            case "Hout":
+                aantalHout += i;
+                break;
+            case "Leem":
+                aantalLeem += i;
+                break;
+            case "Steen":
+                aantalSteen += i;
+                break;
+            case "Goud":
+                aantalGoud += i;
+                break;
+        }
+    }
+    public void voegVoedselToe(int i) {
+        aantalVoedsel += i;
+    }
+    public boolean heeftOngebruiktGereedschap() {
+        for(Gereedschapsfiche g : gereedschappen){
+            if(!g.getGebruikt() && g.getKracht() > 0){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Gereedschapsfiche[] getGeerdschapsfiche(){
+        return gereedschappen;
+    }
+
     public int getAantalGoud(){
         return aantalGoud;
     }
@@ -100,4 +189,97 @@ public class Speler {
     public String getNaam() {
         return naam;
     }
+
+    public String geefInfoOngebruikteGereedschapsfiches() {
+        String uitvoer = "";
+        int i = 1;
+        for(Gereedschapsfiche g : gereedschappen){
+            if(g.getKracht() != 0){
+                if(!g.getGebruikt()){
+                    uitvoer += String.format("Gereedschapsfiche %d met kracht %d%n",i,g.getKracht());
+                }
+            }
+            i++;    
+        }    
+        return uitvoer;
+    }
+        
+
+    public void gereedschapsficheIsValid(int gereedschapsfiche) {
+        if (gereedschappen[gereedschapsfiche - 1].getGebruikt()){
+            throw new IllegalArgumentException("Dit gereedschapsfiche is gebruikt");
+        }
+        if (gereedschappen[gereedschapsfiche - 1].getKracht() == 0){
+            throw new IllegalArgumentException("Dit gereedschapsfiche heeft geen kracht");
+        }
+    }
+
+    public int gebruikGereedschapfiche(int gereedschapsfiche) {
+        gereedschappen[gereedschapsfiche - 1].gebruik();
+        return gereedschappen[gereedschapsfiche - 1].getKracht();
+    }
+
+    public void verhoogScore(int berekenWaarde) {
+        score += berekenWaarde;
+    }
+
+    public void gebruikGrondstoffen(int goudKost, int houtKost, int leemKost, int steenKost) {
+        aantalGoud -= goudKost;
+        aantalHout -= houtKost;
+        aantalLeem -= leemKost;
+        aantalSteen -= steenKost;                
+    }
+
+    public void nieuweRonde() {
+        for(Gereedschapsfiche g : gereedschappen){
+            g.reset();
+        }
+        geplaatsteStamleden = 0;
+    }
+
+    public void produceerVoedsel() {
+        aantalVoedsel += voedselProductie;
+    }
+
+    public boolean heeftGenoegVoedsel() {
+        return aantalVoedsel >= stamleden.size();
+    }
+
+    public void voedStamleden() {
+        aantalVoedsel -= stamleden.size();
+    }
+
+    public void voedStamleden(int methode) {
+        score -= 10;
+        aantalVoedsel = 0;
+    }
+
+    public boolean heeftGenoegGrondstoffen() {
+        return aantalVoedsel + aantalHout + aantalLeem + aantalGoud + aantalSteen >= stamleden.size();
+    }
+
+    public int[] geefGrondstoffenSpelerAanZet() {
+        return new int[]{aantalHout,aantalLeem,aantalGoud,aantalSteen};
+    }
+
+    public int nodigVoedsel() {
+        return stamleden.size() - aantalVoedsel;
+    }
+
+    public void voedStamledenSpelerAanZet(int[] grondstoffen) {
+        aantalHout -= grondstoffen[0];
+        aantalLeem -= grondstoffen[1];
+        aantalSteen -= grondstoffen[2];
+        aantalGoud -= grondstoffen[3];
+    }
+
+
+
+
+
+    
+
+
+
+    
 }

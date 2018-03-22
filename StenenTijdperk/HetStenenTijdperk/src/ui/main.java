@@ -42,7 +42,7 @@ public class main {
                         loop = false;
                     } catch (Exception e) {
                         System.out.print("Geef een aantal spelers tussen 2 en 4: ");
-                        input.next();66666
+                        input.next();
                     }
                 }while (loop);
                 
