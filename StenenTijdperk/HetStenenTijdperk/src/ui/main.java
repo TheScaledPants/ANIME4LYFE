@@ -19,7 +19,8 @@ public class main {
     public static Scanner input = new Scanner(System.in);
     
     public static void main(String[] args) throws IOException {
-        int aantalSpelers;
+        int aantalSpelers = 0;
+        boolean loop = true;
         String[] namen;
         
         System.out.printf("Welkom bij stenen tijdperk. "
@@ -31,11 +32,21 @@ public class main {
         switch (input.nextInt()) {
             case 1:
                 System.out.print("Met hoeveel wil je spelen: ");
-                aantalSpelers = input.nextInt();
-                while(!(aantalSpelers > 1 && aantalSpelers < 5)){
-                    System.out.print("Geef een aantal spelers tussen 2 en 4: ");
-                    aantalSpelers = input.nextInt();
-                }
+                do { 
+                    try {
+                        
+                        aantalSpelers=input.nextInt();
+                        if (!(aantalSpelers >= 1 && aantalSpelers <= 5)){
+                            throw new IllegalArgumentException();
+                        }
+                        loop = false;
+                    } catch (Exception e) {
+                        System.out.print("Geef een aantal spelers tussen 2 en 4: ");
+                        input.next();66666
+                    }
+                }while (loop);
+                
+                
                 
                 namen = new String[aantalSpelers];
                 for (int i = 0; i < aantalSpelers; i++) {
